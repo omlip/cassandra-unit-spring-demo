@@ -12,6 +12,8 @@ repositories {
     mavenCentral()
 }
 
+sourceCompatibility='8'
+
 dependencies {
 
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
@@ -25,4 +27,8 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
     testCompile('org.cassandraunit:cassandra-unit-spring:2.2.2.1')
 
+}
+
+configurations {
+	all*.exclude group: 'com.codahale.metrics'
 }
