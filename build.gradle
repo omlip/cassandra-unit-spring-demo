@@ -1,0 +1,28 @@
+group 'be.arexo.demos'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+
+ext {
+    springBootVersion = '1.3.5.RELEASE'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+//    compile("org.springframework.data:spring-data-cassandra:1.4.0.RELEASE")
+
+    compile("org.springframework.boot:spring-boot-starter-data-cassandra:${springBootVersion}")
+
+    compile("com.datastax.cassandra:cassandra-driver-core:2.1.7.1")
+    compile("com.datastax.cassandra:cassandra-driver-dse:2.1.7.1")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+    testCompile('org.cassandraunit:cassandra-unit-spring:2.2.2.1')
+
+}
