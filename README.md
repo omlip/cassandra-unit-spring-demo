@@ -17,9 +17,6 @@ Jour | Nuit
 9h|21h
 
 
-[arexo WebSite](http://arexo.be)
-
-
 # Write integration tests with Spring Boot and Cassandra in 2 minutes
 
 
@@ -28,8 +25,13 @@ The following document will describe an how-to write integration tests with Spri
 
 
 ### cassandra-unit
+Cassandra-unit, as indicated by its name, is a unit testing library wich add to your test the ability to start/stop a Cassandra database server and also inject a CQL dataset into it.
 
+The project provides two modules:
+- **cassandra-unit** : the core, contains everything to start the server, injection of dataset etc...
+- **cassandra-unit-spring** : A library which fill the gap between Spring-Boot dependency injection and the Cassandra related stuff. The second ones include the first.
 
+More info on the project [GitHub's page](https://github.com/jsevellec/cassandra-unit)
 
 ### installation
 
@@ -60,7 +62,9 @@ java.lang.NoSuchMethodError: com.codahale.metrics.Snapshot: method <init>()V not
 
 ```
 
-Do this ...
-```groovy
-
+Exclude from the configuration de *com.codahale.metrics* dependency
+```gradle
+configurations {
+	all*.exclude group: 'com.codahale.metrics'
+}
 ```
