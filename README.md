@@ -1,22 +1,3 @@
-> Coffee. The finest organic suspension ever devised... I beat the Borg with it.
-> - Captain Janeway
-
-**bold**
-*italic*
-
-```java
-if (isAwesome){
-  return true;
-}
-```
-
-`var machine = truc`
-
-Jour | Nuit
------|------
-9h|21h
-
-
 # Write integration tests with Spring Boot and Cassandra in 2 minutes
 
 
