@@ -12,12 +12,11 @@ repositories {
     mavenCentral()
 }
 
-sourceCompatibility='8'
+//sourceCompatibility='8'
 
 dependencies {
 
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
-//    compile("org.springframework.data:spring-data-cassandra:1.4.0.RELEASE")
 
     compile("org.springframework.boot:spring-boot-starter-data-cassandra:${springBootVersion}")
 

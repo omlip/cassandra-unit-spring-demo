@@ -23,7 +23,7 @@ import javax.annotation.PostConstruct;
         CassandraUnitDependencyInjectionTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class}
 )
-@EmbeddedCassandra(/*configuration="cu.yaml",*/timeout = 60000)
+@EmbeddedCassandra(timeout = 60000)
 public class AbstractEmbeddedCassandraTest {
 
     @Value("${local.server.port}")
