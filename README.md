@@ -36,9 +36,7 @@ dependencies {
 
 
 ### Write a dataset
-Create a dataset file, the CQL instruction present in that file will be played against the database which is loaded within your test
-
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+Create a dataset file, the CQL instructions present in that file will be played against the database which is loaded within your test
 
 
 The "dataset.cql" file
@@ -56,6 +54,18 @@ CREATE TABLE IF NOT EXISTS mykeyspace.logs (
 
 INSERT into mykeyspace.logs(id, query) values ('1','cinema');
 ```
+
+### Add cassandra properties to application.properies
+```
+test.url=http://localhost
+
+spring.data.cassandra.keyspace-name=mykeyspace
+spring.data.cassandra.contact-points=localhost
+spring.data.cassandra.port=9142
+```
+
+There is nothing magic here, juste tell the Spring Boot Cassandra auto-configuration to connect on localhost and port 9142
+Attention!!! cassandra-unit start by default cassandra on port 9142 instead of 9042
 
 ### Write a test
 ```java
@@ -84,8 +94,6 @@ public class LogControllerTest extends AbstractEmbeddedCassandraTest {
     }
 }
 ```
-
-![title](./local.png)
 
 The annotation @CassandraDataSet is used to define the keyspace to use and also the sql requests to load into the database
 
@@ -139,9 +147,32 @@ public class AbstractEmbeddedCassandraTest {
 }
 ```
 
+Then execute it and you should see something like this as output
+```console
+016-10-19 21:21:28.415  INFO 40099 --- [           main] b.a.d.c.controller.LogControllerTest     : Started LogControllerTest in 3.461 seconds (JVM running for 14.008)
+2016-10-19 21:21:28.627  INFO 40099 --- [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2016-10-19 21:21:28.628  INFO 40099 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2016-10-19 21:21:28.641  INFO 40099 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 13 ms
+2016-10-19 21:21:28.854  INFO 40099 --- [           main] c.d.d.c.p.DCAwareRoundRobinPolicy        : Using data-center name 'datacenter1' for DCAwareRoundRobinPolicy (if this is incorrect, please provide the correct datacenter name with DCAwareRoundRobinPolicy constructor)
+2016-10-19 21:21:28.854  INFO 40099 --- [           main] com.datastax.driver.core.Cluster         : New Cassandra host localhost/127.0.0.1:9142 added
+2016-10-19 21:21:28.889  INFO 40099 --- [edPool-Worker-2] o.a.cassandra.service.MigrationManager   : Drop Keyspace 'system_distributed'
+2016-10-19 21:21:29.196  INFO 40099 --- [edPool-Worker-3] o.a.cassandra.service.MigrationManager   : Drop Keyspace 'mykeyspace'
+2016-10-19 21:21:29.489  INFO 40099 --- [iceShutdownHook] o.apache.cassandra.thrift.ThriftServer   : Stop listening to thrift clients
+2016-10-19 21:21:29.489  INFO 40099 --- [       Thread-3] ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4372b9b6: startup date [Wed Oct 19 21:21:25 CEST 2016]; root of context hierarchy
+2016-10-19 21:21:29.498  INFO 40099 --- [iceShutdownHook] org.apache.cassandra.transport.Server    : Stop listening for CQL clients
+2016-10-19 21:21:29.498  INFO 40099 --- [iceShutdownHook] org.apache.cassandra.gms.Gossiper        : Announcing shutdown
+2016-10-19 21:21:29.499  INFO 40099 --- [iceShutdownHook] o.a.cassandra.service.StorageService     : Node /127.0.0.1 state jump to normal
+2016-10-19 21:21:29.506 ERROR 40099 --- [-reconnection-0] c.d.driver.core.ControlConnection        : [Control connection] Cannot connect to any host, scheduling retry in 1000 milliseconds
+2016-10-19 21:21:30.509 ERROR 40099 --- [-reconnection-0] c.d.driver.core.ControlConnection        : [Control connection] Cannot connect to any host, scheduling retry in 2000 milliseconds
+2016-10-19 21:21:31.502  INFO 40099 --- [iceShutdownHook] o.apache.cassandra.net.MessagingService  : Waiting for messaging service to quiesce
+2016-10-19 21:21:31.503  INFO 40099 --- [CEPT-/127.0.0.1] o.apache.cassandra.net.MessagingService  : MessagingService has terminated the accept() thread
+```
+
 ### Conclusion
 That 's all, as you can see, writing integration test with an embedded cassandra database is not so difficult.
-With this code, you have and ready to go example. I hope you enjoy this article.
+With this code, you have and ready to go example. 
+
+I hope you enjoy this article. If you have any remarks, please feel free to contact me at olivier.antoine@arexo.be :-)
 
 
 ### troubleshooting
