@@ -1,11 +1,11 @@
 # Write integration tests with Spring Boot and Cassandra in 2 minutes
 
 
-### context
+### Context
 The following document will describe an how-to write integration tests with Spring-Boot against an embedded Cassandra database with the use of cassandra-unit framework.
 To achieve this, I wrote a little and basic log management application. This mainly focused on writing a test and validated what is retrieved from the database.
 
-### cassandra-unit
+### Cassandra-unit
 Cassandra-unit, as indicated by its name, is a unit testing library wich add to your test the ability to start/stop a Cassandra database server and also inject a CQL dataset into it.
 
 The project provides two modules:
@@ -60,7 +60,7 @@ INSERT into mykeyspace.logs(id, query) values ('1','cinema');
 ### Write a test
 ```java
 package be.arexo.demos.cassandra.controller;
-
+ 
 import be.arexo.demos.cassandra.test.AbstractEmbeddedCassandraTest;
 import org.cassandraunit.spring.CassandraDataSet;
 import org.junit.Test;
@@ -70,20 +70,22 @@ import org.springframework.http.ResponseEntity;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-
+ 
 @CassandraDataSet(keyspace = "mykeyspace", value = {"dataset.cql"})
 public class LogControllerTest extends AbstractEmbeddedCassandraTest {
-
+ 
     @Test
     public void testFindOne() throws Exception {
-
+ 
         ResponseEntity<Log> response = client.getForEntity("/logs/{id}", Log.class, 1);
-
+ 
         assertThat(response.getStatusCode()     , is(HttpStatus.OK));
         assertThat(response.getBody().getQuery(), is("cinema"));
     }
 }
 ```
+
+![title](./local.png)
 
 The annotation @CassandraDataSet is used to define the keyspace to use and also the sql requests to load into the database
 
